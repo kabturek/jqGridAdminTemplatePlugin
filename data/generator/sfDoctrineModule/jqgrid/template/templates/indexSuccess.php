@@ -3,7 +3,7 @@
 jQuery(document).ready(function($){
   var colNames = [];
 <?php if ($this->configuration->getValue('list.batch_actions')): ?>
-          colNames.push('<input id="sf_admin_list_batch_checkbox" type="checkbox" onclick="checkAll();" />');
+          colNames.push(' ');
 <?php endif; ?>
 <?php foreach ($this->configuration->getValue('list.display') as $name => $field): ?>
 <?php echo $this->addCredentialCondition(sprintf(<<<EOF
@@ -55,6 +55,18 @@ jQuery("#list").jqGrid('navGrid','#pager',{edit:false,add:false,del:false});
 
   [?php include_partial('<?php echo $this->getModuleName() ?>/flashes') ?]
 
+<?php if ($this->configuration->getValue('list.batch_actions')): ?>
+    <form action="[?php echo url_for('<?php echo $this->getUrlForAction('collection') ?>', array('action' => 'batch')) ?]" method="post">
+<?php endif; ?>
   <table id="list"></table>
   <div id="pager"></div>
+  <div id="sf_admin_content">
+    <ul class="sf_admin_actions">
+      [?php include_partial('<?php echo $this->getModuleName() ?>/list_batch_actions', array('helper' => $helper)) ?]
+      [?php include_partial('<?php echo $this->getModuleName() ?>/list_actions', array('helper' => $helper)) ?]
+    </ul>
+<?php if ($this->configuration->getValue('list.batch_actions')): ?>
+    </form>
+<?php endif; ?>
+  </div>
 </div>
