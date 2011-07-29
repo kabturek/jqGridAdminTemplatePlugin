@@ -2,6 +2,9 @@
 <script type="text/javascript">
 jQuery(document).ready(function($){
   var colNames = [];
+<?php if ($this->configuration->getValue('list.batch_actions')): ?>
+          colNames.push('<input id="sf_admin_list_batch_checkbox" type="checkbox" onclick="checkAll();" />');
+<?php endif; ?>
 <?php foreach ($this->configuration->getValue('list.display') as $name => $field): ?>
 <?php echo $this->addCredentialCondition(sprintf(<<<EOF
   colNames.push("%s"); 
@@ -9,8 +12,14 @@ jQuery(document).ready(function($){
 EOF
 , $field->getConfig('label')), $field->getConfig()); ?>
 <?php endforeach; ?>
+<?php if ($this->configuration->getValue('list.object_actions')): ?>
+          colNames.push('[?php echo __('Actions', array(), 'sf_admin') ?]');
+<?php endif; ?>
 
 var colModel = [];
+<?php if ($this->configuration->getValue('list.batch_actions')): ?>
+          colModel.push( {name: 'batch', sortable : false, search: false, width: 30});
+<?php endif; ?>
 <?php foreach ($this->configuration->getValue('list.display') as $name => $field): ?>
 <?php echo $this->addCredentialCondition(sprintf(<<<EOF
   colModel.push( {name: '%s', index:'%s'}); 
@@ -18,6 +27,9 @@ var colModel = [];
 EOF
 , $name, $name), $field->getConfig()); ?>
 <?php endforeach; ?>
+<?php if ($this->configuration->getValue('list.object_actions')): ?>
+          colModel.push( {name: 'actions', sortable : false, search: false});
+<?php endif; ?>
 
 jQuery("#list").jqGrid({
   url:'[?php echo url_for("@<?php echo $this->getUrlForAction('list'); ?>"); ?]',
