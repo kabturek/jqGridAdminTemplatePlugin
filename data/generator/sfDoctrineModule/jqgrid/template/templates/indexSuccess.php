@@ -22,10 +22,10 @@ var colModel = [];
 <?php endif; ?>
 <?php foreach ($this->configuration->getValue('list.display') as $name => $field): ?>
 <?php echo $this->addCredentialCondition(sprintf(<<<EOF
-  colModel.push( {name: '%s', index:'%s'}); 
+  colModel.push( {name: '%s', index:'%s' , width: %s, sortable: %s, search: %s}); 
 
 EOF
-, $name, $name), $field->getConfig()); ?>
+, $name, $name, $field->getConfig('width', 120), $field->getConfig('sortable', true), $field->getConfig('search', true) ), $field->getConfig()); ?>
 <?php endforeach; ?>
 <?php if ($this->configuration->getValue('list.object_actions')): ?>
           colModel.push( {name: 'actions', sortable : false, search: false});
