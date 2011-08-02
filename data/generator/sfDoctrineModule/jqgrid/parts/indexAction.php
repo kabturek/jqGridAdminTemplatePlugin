@@ -11,10 +11,31 @@
     {
       $this->setPage($request->getParameter('page'));
     }
+    
+    if($request->getParameter('_search', false)){
+        $this->parseSearch($request);
+
+    }
 
     $this->pager = $this->getPager();
     $this->sort = $this->getSort();
     if($request->isXmlHttpRequest()){
       $this->setTemplate('jsonIndex');
+    }
+  }
+  protected function parseSearch(sfWebRequest $request){
+    $filters = array();
+    foreach($this->configuration->getFilterDisplay() as $i => $filter){
+      if($request->getParameter($filter)){
+        $filters[$filter] = array('text' => $request->getParameter($filter));
+      }
+    }
+    $this->filters = $this->configuration->getFilterForm($this->getFilters());
+    $request->setParameter($this->filters->getName(), $filters);
+
+    $this->filters->bind($request->getParameter($this->filters->getName()));
+    if ($this->filters->isValid())
+    {
+      $this->setFilters($this->filters->getValues());
     }
   }
