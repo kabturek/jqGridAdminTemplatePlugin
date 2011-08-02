@@ -25,7 +25,7 @@ var colModel = [];
   colModel.push( {name: '%s', index:'%s' , width: %s, sortable: %s, search: %s}); 
 
 EOF
-, $name, $name, $field->getConfig('width', 120), $field->getConfig('sortable', true), $field->getConfig('search', true) ), $field->getConfig()); ?>
+, $name, $name, $field->getConfig('width', 120), $field->getConfig('sortable', true) ? 'true' : 'false', $field->getConfig('search', true) ? 'true' : 'false' ), $field->getConfig()); ?>
 <?php endforeach; ?>
 <?php if ($this->configuration->getValue('list.object_actions')): ?>
           colModel.push( {name: 'actions', sortable : false, search: false});
@@ -38,13 +38,15 @@ jQuery("#list").jqGrid({
   colNames: colNames,
   colModel: colModel,
   rowNum:10,
+  height: '500',
   rowList:[10,20,30],
   pager: '#pager',
   sortname: 'id',
   viewrecords: true,
   sortorder: "desc"
 });
-jQuery("#list").jqGrid('navGrid','#pager',{edit:false,add:false,del:false});
+jQuery("#list").jqGrid('navGrid','#pager',{edit:false,add:false,del:false,search:false});
+jQuery("#list").jqGrid('filterToolbar');
 
 });
 </script>
