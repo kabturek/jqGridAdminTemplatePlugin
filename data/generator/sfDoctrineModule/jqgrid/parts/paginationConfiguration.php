@@ -6,6 +6,6 @@
 
   public function getPagerMaxPerPage()
   {
-    return <?php echo isset($this->config['list']['max_per_page']) ? (integer) $this->config['list']['max_per_page'] : 20 ?>;
+    return <?php echo isset($this->config['list']['max_per_page']) ? (integer) $this->config['list']['max_per_page'] : 10 ?>;
 <?php unset($this->config['list']['max_per_page']) ?>
   }

@@ -3,6 +3,7 @@
     $pager = $this->configuration->getPager('<?php echo $this->getModelClass() ?>');
     $pager->setQuery($this->buildQuery());
     $pager->setPage($this->getPage());
+    $pager->setMaxPerPage($this->getMaxPerPage());
     $pager->init();
 
     return $pager;
@@ -16,6 +17,15 @@
   protected function getPage()
   {
     return $this->getUser()->getAttribute('<?php echo $this->getModuleName() ?>.page', 1, 'admin_module');
+  }
+  protected function setMaxPerPage($page)
+  {
+    $this->getUser()->setAttribute('<?php echo $this->getModuleName() ?>.per_page', $page, 'admin_module');
+  }
+
+  protected function getMaxPerPage()
+  {
+    return $this->getUser()->getAttribute('<?php echo $this->getModuleName() ?>.per_page', 1, 'admin_module');
   }
 
   protected function buildQuery()

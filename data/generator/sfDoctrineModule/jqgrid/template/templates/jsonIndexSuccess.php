@@ -19,9 +19,9 @@ EOF
             $results[$i]['cell'][] = get_partial('<?php echo $this->getModuleName() ?>/list_json_actions', array('<?php echo $this->getSingularName() ?>' => $<?php echo $this->getSingularName() ?>, 'helper' => $helper)); 
 }
 $ret = array( 
-  "total" => $pager->getNbResults(), 
+  "total" => $pager->getLastPage(), 
   "page" => $pager->getPage(), 
-  "records" => count($results), 
+  "records" => $pager->getNbResults(), 
   "rows" => $results,
 );
 echo json_encode($ret);

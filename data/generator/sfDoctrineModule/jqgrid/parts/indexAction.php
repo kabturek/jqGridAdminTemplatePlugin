@@ -11,6 +11,11 @@
     {
       $this->setPage($request->getParameter('page'));
     }
+    //max per page
+    if ($request->getParameter('rows'))
+    {
+      $this->setMaxPerPage($request->getParameter('rows'));
+    }
     
     if($request->getParameter('_search', false)){
         $this->parseSearch($request);
@@ -19,6 +24,7 @@
 
     $this->pager = $this->getPager();
     $this->sort = $this->getSort();
+    // pager
     if($request->isXmlHttpRequest()){
       $this->setTemplate('jsonIndex');
     }
